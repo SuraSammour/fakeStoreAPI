@@ -19,6 +19,7 @@ const images=data.images.map((img)=>{
     
 }).join('');
 document.querySelector(".product-images").innerHTML=images;
+document.querySelector(".overlay").classList.add('d-none');
 }
 
 
