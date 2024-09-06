@@ -9,11 +9,16 @@ const displayProducts=async()=>{
         const products=data.products;
         const result=products.map((product)=>{
             return`
-            <div class="product">
-            <h2>${product.title}</h2>
-            <img src="${product.thumbnail}"/>
-            <a href="./details.html?id=${product.id}">Details</a>
-            </div>`
+            <tr>
+            <td>${product.id}</td>
+             <td>${product.title}</td>
+             <td><img src="${product.thumbnail}"/></td> 
+             <td>
+             <a href="./details.html?id=${product.id}">Details</a>
+             <button onclick='deleteProduct(${product.id})'>delete</button>
+             </td>
+            </tr>
+           `;
         }).join('');
         document.querySelector(".products").innerHTML=result;
         
@@ -26,5 +31,17 @@ const displayProducts=async()=>{
 }finally{
     document.querySelector(".overlay").classList.add('d-none');
 }
+}
+
+const deleteProduct=async(id)=>{
+    try{
+        const {data}=await axios.delete(`https://dummyjson.com/products/${id}`);
+        alert("product deleted successfully");
+    }
+   catch(error){
+    alert("can not deleted this product");
+   }
+    
+
 }
 displayProducts();
