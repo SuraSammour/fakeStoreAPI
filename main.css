@@ -54,3 +54,27 @@ body{
 a{
     text-decoration:none;
 }
+nav{
+    display:flex;
+    justify-content: space-around;
+    background-color: #fff;
+    padding:20px;
+    position:sticky;
+    top:0;
+    transition:.6s background-color;
+}
+nav a{
+    color:#000;
+    text-decoration: none;
+}
+.about{
+    text-align:center;
+    padding:50px 0;
+    display :flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.scrollNavbar{
+    background-color:cornflowerblue !important;
+}

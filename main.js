@@ -45,3 +45,15 @@ const deleteProduct=async(id)=>{
 
 }
 displayProducts();
+
+window.onscroll=function(){
+    const nav=document.querySelector("nav");
+    const about =document.querySelector(".about");
+    if(window.scrollY > about.offsetTop){
+        nav.classList.add('scrollNavbar');
+    }
+    else{
+        nav.classList.remove('scrollNavbar');
+    }
+    
+}
