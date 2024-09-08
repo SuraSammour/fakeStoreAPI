@@ -44,6 +44,7 @@ const deleteProduct=async(id)=>{
     
 
 }
+
 displayProducts();
 
 window.onscroll=function(){
