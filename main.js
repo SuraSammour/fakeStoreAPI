@@ -1,27 +1,53 @@
-const getProducts=async ()=>{
-    const{data}=await axios.get(`https://dummyjson.com/products`);
+const getProducts=async (page)=>{
+    const limit=20;
+    const skip=(page-1)*limit;
+    const{data}=await axios.get(`https://dummyjson.com/products?limit=${limit}&skip=${skip}`);
     return data;
 }
 
-const displayProducts=async()=>{
+const displayProducts=async(page=1)=>{
     try{
-        const data=await getProducts();
+        const data=await getProducts(page);
         const products=data.products;
+      //  const numberOfPages=Math.ceil(data.total / data.limit); 
+      const numberOfPages=10;
+        console.log(numberOfPages);
         const result=products.map((product)=>{
-            return`
-            <tr>
-            <td>${product.id}</td>
-             <td>${product.title}</td>
-             <td><img src="${product.thumbnail}"/></td> 
-             <td>
-             <a href="./details.html?id=${product.id}">Details</a>
-             <button onclick='deleteProduct(${product.id})'>delete</button>
-             </td>
-            </tr>
+            return `
+              <div class='product'>
+             <h2>${product.title}</h2>
+             <img src="${product.thumbnail}"/>
+             <div class="product-links">
+                <a href="./details.html?id=${product.id}">Details</a>
+                <button onclick='deleteProduct(${product.id})'>delete</button>
+            </div>
+         </div>
            `;
         }).join('');
         document.querySelector(".products").innerHTML=result;
+
+
+        // pagination 
+        let paginationLinks=``;
+        if(page>1){
+              paginationLinks+=` <li class="page-item"><button onclick=displayProducts(${page}-1) class="page-link">&laquo;</button></li>`;
+        }
+        else{
+            paginationLinks+=` <li class="page-item"><button class="page-link">&laquo;</button></li>`;
+        }
         
+       
+        for(let i=1;i<=numberOfPages;i++){
+            paginationLinks+=`<li class="page-item"><button onclick=displayProducts(${i}) class="page-link" href="#">${i}</button></li>`
+        }
+
+        if(page<numberOfPages){
+            paginationLinks+=`<li class="page-item"><button  onclick=displayProducts(${parseInt(page)}+1) class="page-link">&raquo;</button></li>`;
+        }
+       else{
+        paginationLinks+=`<li class="page-item"><button class="page-link">&raquo;</button></li>`;
+       }
+        document.querySelector(".pagination").innerHTML=paginationLinks;
     }
   catch(error){
     const result=`
