@@ -26,6 +26,90 @@ const displayProducts=async(page=1)=>{
         }).join('');
         document.querySelector(".products").innerHTML=result;
 
+        const modal=document.querySelector(".sliderModal");
+        const closeBtn=document.querySelector(".closeBtn");
+        const leftBtn=document.querySelector(".leftBtn");
+        const rightBtn=document.querySelector(".rightBtn");
+        const allImages=Array.from(document.querySelectorAll("img"));
+        let currentIndex=0;
+        rightBtn.addEventListener("click",()=>{
+          currentIndex++;
+
+          if (currentIndex>=allImages.length)
+            currentIndex=0;
+          const nextImgSrc=allImages[currentIndex].getAttribute("src");
+        modal.querySelector("img").setAttribute("src",nextImgSrc);
+        
+        })
+
+        leftBtn.addEventListener("click",()=>{
+            currentIndex--;
+  
+            if (currentIndex<0)
+              currentIndex=allImages.length -1;
+            const prevImgSrc=allImages[currentIndex].getAttribute("src");
+          modal.querySelector("img").setAttribute("src",prevImgSrc);
+          
+          })
+  
+
+
+
+
+
+
+
+        for (let i=0;i<allImages.length;i++){
+            allImages[i].addEventListener("click",(e)=>{
+                
+                modal.classList.remove("d-none");
+                modal.querySelector("img").setAttribute("src",e.target.src);
+                const currentImg=e.target;
+                currentIndex=allImages.indexOf(currentImg);
+                
+            });
+        }
+
+        closeBtn.addEventListener("click",()=>{
+            modal.classList.add("d-none");
+        })
+
+        modal.addEventListener("click",(e)=>{
+         if(modal==e.target)
+            modal.classList.add("d-none");
+        });
+
+
+       document.addEventListener("keydown",(e)=>{
+       
+        if(e.code=='ArrowRight'){
+            currentIndex++;
+
+            if (currentIndex>=allImages.length)
+              currentIndex=0;
+            const nextImgSrc=allImages[currentIndex].getAttribute("src");
+          modal.querySelector("img").setAttribute("src",nextImgSrc);
+
+        }
+        else if(e.code=='ArrowLeft'){
+            currentIndex--;
+          
+            if (currentIndex<0)
+              currentIndex=allImages.length -1;
+            const prevImgSrc=allImages[currentIndex].getAttribute("src");
+          modal.querySelector("img").setAttribute("src",prevImgSrc);
+        }
+        else if(e.code=='Escape'){
+            modal.classList.add("d-none");
+        }
+            
+       })
+
+   
+
+
+
+
 
         // pagination 
         let paginationLinks=``;
@@ -84,3 +168,5 @@ window.onscroll=function(){
     }
     
 }
+
+
